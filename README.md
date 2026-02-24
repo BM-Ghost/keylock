@@ -191,23 +191,35 @@ See [KEYLOCK_PRO_DOCUMENTATION.md](KEYLOCK_PRO_DOCUMENTATION.md) for:
 
 ## � CI/CD Pipeline
 
-Automated GitHub Actions for all three branches:
+**Automated Build Workflow:**
 
-| Branch | Build | Artifacts | Retention |
-|--------|-------|-----------|-----------|
-| **dev** | Debug APK | Fast builds | 30 days |
-| **qa** | Release APK | QA testing | 30 days |
-| **main** | Signed APK + AAB | Production | 90 days |
+**Build KeyLock** - Builds APK artifacts
+- Triggers: Push to dev/qa/main
+- Creates: APK files for installation
+- Artifacts: `keylock-{branch}-{timestamp}-apk`
+
+**APK Downloads:**
+
+| Branch | Artifact Name | Build Type | Retention |
+|--------|--------------|------------|----------|
+| **dev** | `keylock-dev-{timestamp}-apk` | Debug APK | 30 days |
+| **qa** | `keylock-qa-{timestamp}-apk` | Release APK | 30 days |
+| **main** | `keylock-main-{timestamp}-release` | Signed APK + AAB | 90 days |
+
+**Timestamp format:** `ddmmyyyyhhmmss` (e.g., `24022026143000`)
+
+**Getting the APK:**
+1. Go to GitHub → **Actions** tab
+2. Click **Build KeyLock** workflow (not Code Quality)
+3. Scroll to **Artifacts** section
+4. Download the timestamped APK
 
 **Workflow:**
 1. Develop on `dev` branch (automatic debug builds)
 2. Merge to `qa` for QA team testing (automatic release builds)
 3. Merge to `main` for production (automatic signing & Play Store artifacts)
 
-**Getting Started:**
-- Push code to GitHub → Workflows auto-run
-- Download artifacts from Actions tab
-- Setup GitHub Secrets for production signing (see [CI_CD.md](CI_CD.md))
+**Version Number:** Each build gets a unique version based on build time (ddmmyyyyhhmmss)
 
 ## �🗺️ Roadmap
 

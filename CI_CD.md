@@ -184,10 +184,16 @@ Runs only on main branch (push or tags starting with `v`)
 
 ## Accessing Artifacts
 
+**To download APK:**
 1. Go to GitHub repository → **Actions** tab
-2. Click the workflow run (shows branch and timestamp)
-3. Scroll to bottom → "Artifacts" section
-4. Download artifact (APK for dev/qa, APK+AAB for main)
+2. Click the **Build KeyLock** workflow run
+3. Scroll to bottom → **Artifacts** section
+4. Download artifact:
+   - `keylock-dev-{timestamp}-apk` (dev branch)
+   - `keylock-qa-{timestamp}-apk` (qa branch)
+   - `keylock-main-{timestamp}-release` (main branch)
+
+**Timestamp format:** `ddmmyyyyhhmmss` (e.g., `24022026143000`)
 
 **Download links expire after retention period (30-90 days)**
 
