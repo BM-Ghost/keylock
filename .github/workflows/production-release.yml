@@ -21,19 +21,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Generate timestamp
+        id: timestamp
+        run: |
+          TIMESTAMP=$(date -u +"%d%m%Y%H%M%S")
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+          echo "Generated timestamp: $TIMESTAMP"
+
       - name: Get version
         id: version
         run: |
-          VERSION=$(grep "versionName" app/build.gradle.kts | sed 's/.*versionName = "\(.*\)".*/\1/')
+          VERSION="${{ steps.timestamp.outputs.timestamp }}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
-
-      - name: Get timestamp
-        id: timestamp
-        run: |
-          TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
-          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
-          echo "Build timestamp: $TIMESTAMP"
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -45,11 +45,14 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x gradlew
 
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Build release APK
-        run: ./gradlew assembleRelease -x test
+        run: ./gradlew assembleRelease -x test -PversionName=${{ steps.timestamp.outputs.timestamp }}
 
       - name: Build release AAB (Android App Bundle)
-        run: ./gradlew bundleRelease -x test
+        run: ./gradlew bundleRelease -x test -PversionName=${{ steps.timestamp.outputs.timestamp }}
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
@@ -66,13 +69,13 @@ jobs:
       - name: Rename signed APK
         run: |
           mkdir -p release-artifacts
-          cp app/build/outputs/apk/release/*-signed.apk release-artifacts/keylock-${{ steps.version.outputs.version }}-signed.apk
-          cp app/build/outputs/bundle/release/*.aab release-artifacts/keylock-${{ steps.version.outputs.version }}.aab
+          cp app/build/outputs/apk/release/*-signed.apk release-artifacts/keylock-main-${{ steps.timestamp.outputs.timestamp }}-signed.apk
+          cp app/build/outputs/bundle/release/*.aab release-artifacts/keylock-main-${{ steps.timestamp.outputs.timestamp }}.aab
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: keylock-production-${{ steps.version.outputs.version }}
+          name: keylock-main-${{ steps.timestamp.outputs.timestamp }}-release
           path: release-artifacts/
           retention-days: 90
 
@@ -127,6 +130,9 @@ jobs:
 
       - name: Grant execute permissions
         run: chmod +x gradlew
+
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Run comprehensive tests
         run: ./gradlew test -x connectedAndroidTest
