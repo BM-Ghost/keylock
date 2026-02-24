@@ -191,17 +191,12 @@ See [KEYLOCK_PRO_DOCUMENTATION.md](KEYLOCK_PRO_DOCUMENTATION.md) for:
 
 ## � CI/CD Pipeline
 
-**Two Automated Workflows:**
+**Automated Build Workflow:**
 
-1. **Build KeyLock** - Builds APK artifacts
-   - Triggers: Push to dev/qa/main
-   - Creates: APK files for installation
-   - Artifacts: `keylock-{branch}-{timestamp}-apk`
-   
-2. **Code Quality & Analysis** - Quality checks only (no APK)
-   - Triggers: Push to dev/qa/main
-   - Creates: Lint reports, code analysis
-   - Artifacts: `code-quality-reports`
+**Build KeyLock** - Builds APK artifacts
+- Triggers: Push to dev/qa/main
+- Creates: APK files for installation
+- Artifacts: `keylock-{branch}-{timestamp}-apk`
 
 **APK Downloads:**
 

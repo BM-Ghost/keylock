@@ -184,13 +184,9 @@ Runs only on main branch (push or tags starting with `v`)
 
 ## Accessing Artifacts
 
-**Important:** Two workflows run on every push:
-1. **Build KeyLock** - Creates APK files ✅ **Download from here**
-2. **Code Quality & Analysis** - Only lint/quality reports (no APK)
-
 **To download APK:**
 1. Go to GitHub repository → **Actions** tab
-2. Click the **Build KeyLock** workflow run (not Code Quality)
+2. Click the **Build KeyLock** workflow run
 3. Scroll to bottom → **Artifacts** section
 4. Download artifact:
    - `keylock-dev-{timestamp}-apk` (dev branch)
