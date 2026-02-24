@@ -6,11 +6,6 @@ on:
       - main
       - qa
       - dev
-  pull_request:
-    branches:
-      - main
-      - qa
-      - dev
 
 jobs:
   code-quality:
