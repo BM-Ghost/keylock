@@ -16,6 +16,7 @@ import com.bwire.keylock.ui.theme.*
 import com.bwire.keylock.ui.components.CryptoConsole
 import com.bwire.keylock.ui.components.CryptoConsoleCollapsible
 import com.bwire.keylock.ui.components.HashCalculatorPanel
+import com.bwire.keylock.ui.components.CharacterEncodingPanel
 import kotlinx.coroutines.launch
 
 /**
@@ -359,6 +360,12 @@ private fun ToolConfigPanel(
             when (tool) {
                 GenericTool.HASHES.displayName -> {
                     HashCalculatorPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.CHARACTER_ENCODING.displayName -> {
+                    CharacterEncodingPanel(
                         onExecute = onExecute,
                         modifier = modifier
                     )

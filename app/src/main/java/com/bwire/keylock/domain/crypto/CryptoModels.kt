@@ -156,3 +156,18 @@ enum class PaddingScheme(
     ANSI_X9_23("ANSI X9.23"),
     ZERO_PADDING("Zero Padding")
 }
+
+/**
+ * Character encoding conversion types
+ */
+enum class CharacterEncodingType(
+    val displayName: String
+) {
+    BINARY_TO_HEX("Binary -> Hexadecimal"),
+    HEX_TO_BINARY("Hexadecimal -> Binary"),
+    ASCII_TO_EBCDIC("ASCII -> EBCDIC"),
+    EBCDIC_TO_ASCII("EBCDIC -> ASCII"),
+    ASCII_TO_HEX("ASCII Text -> Hexadecimal"),
+    ATM_ASCII_DEC_TO_HEX("ATM ASCII Decimal -> Hexadecimal"),
+    HEX_TO_ATM_ASCII_DEC("Hexadecimal -> ATM ASCII Decimal")
+}
