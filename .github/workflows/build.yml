@@ -16,18 +16,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
+      - name: Generate timestamp
+        id: timestamp
+        run: |
+          TIMESTAMP=$(date -u +"%d%m%Y%H%M%S")
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+          echo "Generated timestamp: $TIMESTAMP"
+      
       - name: Determine build type
         id: build-config
         run: |
           if [ "${{ github.ref_name }}" = "dev" ]; then
             echo "build-type=debug" >> $GITHUB_OUTPUT
-            echo "artifact-suffix=dev" >> $GITHUB_OUTPUT
+            echo "branch-name=dev" >> $GITHUB_OUTPUT
           elif [ "${{ github.ref_name }}" = "qa" ]; then
             echo "build-type=release" >> $GITHUB_OUTPUT
-            echo "artifact-suffix=qa" >> $GITHUB_OUTPUT
+            echo "branch-name=qa" >> $GITHUB_OUTPUT
           elif [ "${{ github.ref_name }}" = "main" ]; then
             echo "build-type=release" >> $GITHUB_OUTPUT
-            echo "artifact-suffix=production" >> $GITHUB_OUTPUT
+            echo "branch-name=main" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up JDK 21
@@ -46,16 +53,16 @@ jobs:
       - name: Build ${{ steps.build-config.outputs.build-type }}
         run: |
           if [ "${{ steps.build-config.outputs.build-type }}" = "release" ]; then
-            ./gradlew assembleRelease -x test
+            ./gradlew assembleRelease -x test -PversionName=${{ steps.timestamp.outputs.timestamp }}
           else
-            ./gradlew assembleDebug -x test
+            ./gradlew assembleDebug -x test -PversionName=${{ steps.timestamp.outputs.timestamp }}
           fi
 
-      - name: Upload APK artifact - ${{ steps.build-config.outputs.artifact-suffix }}
+      - name: Upload APK artifact - ${{ steps.build-config.outputs.branch-name }}
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: keylock-${{ steps.build-config.outputs.artifact-suffix }}-apk
+          name: keylock-${{ steps.build-config.outputs.branch-name }}-${{ steps.timestamp.outputs.timestamp }}-apk
           path: app/build/outputs/apk/${{ steps.build-config.outputs.build-type }}/*.apk
           retention-days: 30
 
