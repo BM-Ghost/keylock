@@ -258,7 +258,6 @@ Always use certified, audited cryptographic solutions for production systems.
 For professional support and inquiries:
 - Email: support@keylock.pro (coming soon)
 - CI/CD Setup: See [CI_CD.md](CI_CD.md)
-- Full Documentation: See [KEYLOCK_PRO_DOCUMENTATION.md](KEYLOCK_PRO_DOCUMENTATION.md)
 
 ---
 
