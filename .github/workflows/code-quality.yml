@@ -1,0 +1,79 @@
+name: Code Quality & Analysis
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+      - dev
+  pull_request:
+    branches:
+      - main
+      - qa
+      - dev
+
+jobs:
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for analysis
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permissions
+        run: chmod +x gradlew
+
+      - name: Build lint database
+        run: ./gradlew lintDebug -x test
+
+      - name: Check for compilation errors
+        run: ./gradlew compileDebugKotlin compileDebugJava
+
+      - name: Generate reports
+        if: always()
+        run: ./gradlew check -x test -x connectedAndroidTest || true
+
+      - name: Publish code quality results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-quality-reports
+          path: |
+            app/build/reports/
+          retention-days: 14
+
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permissions
+        run: chmod +x gradlew
+
+      - name: Check dependencies
+        run: ./gradlew dependencyUpdates
+        continue-on-error: true
+
+      - name: Analyze Gradle dependencies
+        run: ./gradlew dependencies
+        continue-on-error: true
