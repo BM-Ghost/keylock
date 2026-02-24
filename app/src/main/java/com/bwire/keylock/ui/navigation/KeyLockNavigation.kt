@@ -17,7 +17,7 @@ import com.bwire.keylock.ui.screens.hsm.HSMCommanderScreen
 import com.bwire.keylock.ui.screens.security.LockScreen
 
 /**
- * Main navigation component for KeyLock Pro
+ * Main navigation component for KeyLock
  * Handles navigation between major modules and screens
  */
 @Composable

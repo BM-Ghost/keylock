@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * KeyLock Pro Typography
+ * KeyLock Typography
  * Monospace fonts for crypto/hex display, clean sans-serif for UI
  */
 

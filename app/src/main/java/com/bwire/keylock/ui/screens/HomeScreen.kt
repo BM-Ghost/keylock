@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.bwire.keylock.ui.theme.*
 
 /**
- * Home Screen - Main dashboard for KeyLock Pro
+ * Home Screen - Main dashboard for KeyLock
  * Displays module cards for quick access to major functions
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +35,7 @@ fun HomeScreen(
             TopAppBar(
                 title = { 
                     Text(
-                        "KeyLock Pro",
+                        "KeyLock",
                         style = MaterialTheme.typography.titleMedium
                     )
                 },

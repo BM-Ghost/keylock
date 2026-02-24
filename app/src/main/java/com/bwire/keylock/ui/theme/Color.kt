@@ -3,7 +3,7 @@ package com.bwire.keylock.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /**
- * KeyLock Pro Color Palette
+ * KeyLock Color Palette
  * Based on darkest green with neon green accents
  */
 

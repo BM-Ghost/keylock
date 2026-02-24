@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeyLock Pro</string>
+    <string name="app_name">KeyLock</string>
     <string name="app_tagline">Professional Offline Cryptographic Platform</string>
     <string name="offline_status">100% Offline</string>
     <string name="lock_application">Lock Application</string>

@@ -11,7 +11,7 @@ import com.bwire.keylock.ui.navigation.KeyLockNavigation
 import com.bwire.keylock.ui.theme.KeyLockTheme
 
 /**
- * KeyLock Pro - Professional Offline Cryptographic & HSM Simulation Application
+ * KeyLock - Professional Offline Cryptographic & HSM Simulation Application
  * 
  * Main Activity - Entry point for the application
  * 100% offline operation with zero telemetry or cloud connectivity

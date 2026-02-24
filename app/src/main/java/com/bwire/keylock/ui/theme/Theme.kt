@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 /**
- * KeyLock Pro Theme
+ * KeyLock Theme
  * Implements the darkest green color scheme with neon green accents
  * Professional, expert-focused appearance for cryptographic operations
  */

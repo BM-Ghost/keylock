@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
- * Navigation routes and structure for KeyLock Pro
+ * Navigation routes and structure for KeyLock
  */
 sealed class Screen(
     val route: String,

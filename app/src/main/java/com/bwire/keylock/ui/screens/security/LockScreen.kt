@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.bwire.keylock.ui.theme.*
 
 /**
- * Lock Screen - Secure authentication for KeyLock Pro
+ * Lock Screen - Secure authentication for KeyLock
  * Implements master password/passphrase authentication
  * 
  * Future: Biometric authentication, hardware binding
@@ -84,7 +84,7 @@ fun LockScreen(
                 )
                 
                 Text(
-                    text = "KeyLock Pro",
+                    text = "KeyLock",
                     style = MaterialTheme.typography.headlineMedium,
                     color = TextPrimary
                 )

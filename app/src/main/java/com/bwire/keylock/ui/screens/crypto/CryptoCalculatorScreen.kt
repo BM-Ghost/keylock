@@ -161,7 +161,7 @@ private fun CryptoCalculatorTopBar(
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 Text(
-                    "KeyLock Pro",
+                    "KeyLock",
                     style = MaterialTheme.typography.titleMedium,
                     color = NeonGreen
                 )
