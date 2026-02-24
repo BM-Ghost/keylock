@@ -1,58 +1,98 @@
 package com.bwire.keylock.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
+/**
+ * KeyLock Pro Theme
+ * Implements the darkest green color scheme with neon green accents
+ * Professional, expert-focused appearance for cryptographic operations
+ */
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val KeyLockDarkColorScheme = darkColorScheme(
+    primary = NeonGreen,
+    onPrimary = DarkestGreen,
+    primaryContainer = DarkGreen,
+    onPrimaryContainer = BrightNeonGreen,
+    
+    secondary = MediumGreen,
+    onSecondary = TextPrimary,
+    secondaryContainer = DarkGreen,
+    onSecondaryContainer = TextSecondary,
+    
+    tertiary = MutedGold,
+    onTertiary = DarkestGreen,
+    tertiaryContainer = WarningGold,
+    onTertiaryContainer = TextPrimary,
+    
+    error = ErrorRed,
+    onError = TextPrimary,
+    errorContainer = DestructiveRed,
+    onErrorContainer = TextPrimary,
+    
+    background = DarkestGreen,
+    onBackground = TextPrimary,
+    
+    surface = SurfaceDark,
+    onSurface = TextPrimary,
+    surfaceVariant = SurfaceMedium,
+    onSurfaceVariant = TextSecondary,
+    
+    outline = MediumGreen,
+    outlineVariant = DarkGreen,
+    
+    inverseSurface = TextPrimary,
+    inverseOnSurface = DarkestGreen,
+    inversePrimary = DarkGreen,
+    
+    surfaceTint = NeonGreen,
+    
+    scrim = Color(0x99000000)
 )
 
 @Composable
 fun KeyLockTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    darkTheme: Boolean = true, // Always dark theme for professional crypto application
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    val colorScheme = KeyLockDarkColorScheme
+    
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colorScheme.background.toArgb()
+            window.navigationBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = false
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
     }
-
+    
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = KeyLockTypography,
         content = content
     )
+}
+
+/**
+ * Extension object to access custom theme attributes
+ */
+object KeyLockTheme {
+    val colorScheme: androidx.compose.material3.ColorScheme
+        @Composable
+        get() = MaterialTheme.colorScheme
+    
+    val typography: Typography
+        @Composable
+        get() = MaterialTheme.typography
 }
