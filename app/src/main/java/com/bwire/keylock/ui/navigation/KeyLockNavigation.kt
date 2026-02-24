@@ -96,7 +96,7 @@ private fun KeyLockNavHost(
         }
         
         composable(Screen.Settings.route) {
-            // TODO: Implement Settings screen
+            // TODO: Implement Settings screen after dev
             PlaceholderScreen(
                 title = "Settings",
                 onNavigateBack = { navController.popBackStack() }
