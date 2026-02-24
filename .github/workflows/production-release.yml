@@ -45,6 +45,9 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x gradlew
 
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Build release APK
         run: ./gradlew assembleRelease -x test
 
@@ -127,6 +130,9 @@ jobs:
 
       - name: Grant execute permissions
         run: chmod +x gradlew
+
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Run comprehensive tests
         run: ./gradlew test -x connectedAndroidTest

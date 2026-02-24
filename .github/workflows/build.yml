@@ -43,6 +43,9 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x gradlew
 
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Build ${{ matrix.build-type }}
         run: |
           if [ "${{ matrix.build-type }}" = "release" ]; then
@@ -82,6 +85,9 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x gradlew
 
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Run lint
         run: ./gradlew lint -x test
 
@@ -109,6 +115,9 @@ jobs:
 
       - name: Grant execute permissions
         run: chmod +x gradlew
+
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Run unit tests
         run: ./gradlew test
