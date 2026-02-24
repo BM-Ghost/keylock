@@ -33,6 +33,9 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x gradlew
 
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Build lint database
         run: ./gradlew lintDebug -x test
 
@@ -69,6 +72,9 @@ jobs:
 
       - name: Grant execute permissions
         run: chmod +x gradlew
+
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Check dependencies
         run: ./gradlew dependencyUpdates
