@@ -17,6 +17,12 @@ import com.bwire.keylock.ui.components.CryptoConsole
 import com.bwire.keylock.ui.components.CryptoConsoleCollapsible
 import com.bwire.keylock.ui.components.HashCalculatorPanel
 import com.bwire.keylock.ui.components.CharacterEncodingPanel
+import com.bwire.keylock.ui.components.BCDPanel
+import com.bwire.keylock.ui.components.CheckDigitPanel
+import com.bwire.keylock.ui.components.Base64Panel
+import com.bwire.keylock.ui.components.Base94Panel
+import com.bwire.keylock.ui.components.MessageParserPanel
+import com.bwire.keylock.ui.components.RSADERPublicKeyPanel
 import kotlinx.coroutines.launch
 
 /**
@@ -366,6 +372,42 @@ private fun ToolConfigPanel(
                 }
                 GenericTool.CHARACTER_ENCODING.displayName -> {
                     CharacterEncodingPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BCD.displayName -> {
+                    BCDPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.CHECK_DIGITS.displayName -> {
+                    CheckDigitPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BASE64.displayName -> {
+                    Base64Panel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BASE94.displayName -> {
+                    Base94Panel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.MESSAGE_PARSER.displayName -> {
+                    MessageParserPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.RSA_DER_PUBLIC_KEY.displayName -> {
+                    RSADERPublicKeyPanel(
                         onExecute = onExecute,
                         modifier = modifier
                     )

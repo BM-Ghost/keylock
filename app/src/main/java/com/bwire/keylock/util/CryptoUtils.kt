@@ -148,7 +148,7 @@ fun ByteArray.fromBCD(): String {
 fun String.calculateLuhnCheckDigit(): Char {
     val digits = this.filter { it.isDigit() }
     var sum = 0
-    var alternate = false
+    var alternate = true
     
     for (i in digits.length - 1 downTo 0) {
         var digit = digits[i].digitToInt()
@@ -166,13 +166,25 @@ fun String.calculateLuhnCheckDigit(): Char {
 
 /**
  * Verify Luhn check digit
+ * Validates the entire number by checking if sum % 10 == 0
  */
 fun String.verifyLuhn(): Boolean {
     if (this.isEmpty() || !this.all { it.isDigit() }) return false
     
-    val withoutCheck = this.dropLast(1)
-    val expectedCheck = withoutCheck.calculateLuhnCheckDigit()
-    return this.last() == expectedCheck
+    var sum = 0
+    var alternate = false
+    
+    for (i in this.length - 1 downTo 0) {
+        var digit = this[i].digitToInt()
+        if (alternate) {
+            digit *= 2
+            if (digit > 9) digit -= 9
+        }
+        sum += digit
+        alternate = !alternate
+    }
+    
+    return sum % 10 == 0
 }
 
 /**

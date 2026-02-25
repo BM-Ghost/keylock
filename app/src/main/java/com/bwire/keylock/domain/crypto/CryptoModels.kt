@@ -171,3 +171,64 @@ enum class CharacterEncodingType(
     ATM_ASCII_DEC_TO_HEX("ATM ASCII Decimal -> Hexadecimal"),
     HEX_TO_ATM_ASCII_DEC("Hexadecimal -> ATM ASCII Decimal")
 }
+
+/**
+ * BCD (Binary Coded Decimal) data format
+ */
+enum class BCDFormat(
+    val displayName: String
+) {
+    BINARY("Binary"),
+    HEXADECIMAL("Hexadecimal")
+}
+
+/**
+ * Check digit calculation methods
+ */
+enum class CheckDigitMethod(
+    val displayName: String
+) {
+    LUHN("Luhn's number (MOD 10)"),
+    AMEX_SE("Amex SE Number (MOD 9)")
+}
+
+/**
+ * Message parsing modes
+ */
+enum class ParseMode(
+    val displayName: String
+) {
+    ATM_NDC("ATM NDC"),
+    ATM_WINCOR("ATM Wincor"),
+    ISO_8583_1987("ISO 8583 1987")
+}
+
+/**
+ * RSA data encoding formats
+ */
+enum class RSADataEncoding(
+    val displayName: String
+) {
+    NONE("None"),
+    ASCII("ASCII"),
+    EBCDIC("EBCDIC"),
+    BCD("BCD"),
+    BCD_LEFT_F("BCD_left_F"),
+    UTF_8("UTF_8"),
+    ASCII_HEX("ASCII_HEX"),
+    ASCII_BASE64("ASCII_BASE64"),
+    EBCDIC_HEX("EBCDIC_HEX"),
+    ASCII_ZERO_PADDED("ASCII_zero_padded"),
+    BCD_SIGNED("BCD_Signed")
+}
+
+/**
+ * RSA DER encoding types
+ */
+enum class RSADEREncoding(
+    val displayName: String
+) {
+    UNKNOWN("UNKNOWN"),
+    ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED("ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED"),
+    ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT("ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT")
+}
