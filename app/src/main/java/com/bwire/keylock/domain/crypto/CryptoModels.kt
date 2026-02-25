@@ -232,3 +232,13 @@ enum class RSADEREncoding(
     ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED("ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED"),
     ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT("ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT")
 }
+
+/**
+ * UUID variants
+ */
+enum class UUIDVariant(
+    val displayName: String,
+    val logLabel: String
+) {
+    VERSION_4_RANDOM("VERSION_4_RANDOM", "Variant 4 (random)")
+}

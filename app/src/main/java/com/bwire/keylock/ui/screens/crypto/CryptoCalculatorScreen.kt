@@ -23,6 +23,7 @@ import com.bwire.keylock.ui.components.Base64Panel
 import com.bwire.keylock.ui.components.Base94Panel
 import com.bwire.keylock.ui.components.MessageParserPanel
 import com.bwire.keylock.ui.components.RSADERPublicKeyPanel
+import com.bwire.keylock.ui.components.UUIDPanel
 import kotlinx.coroutines.launch
 
 /**
@@ -408,6 +409,12 @@ private fun ToolConfigPanel(
                 }
                 GenericTool.RSA_DER_PUBLIC_KEY.displayName -> {
                     RSADERPublicKeyPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.UUID_GENERATOR.displayName -> {
+                    UUIDPanel(
                         onExecute = onExecute,
                         modifier = modifier
                     )
