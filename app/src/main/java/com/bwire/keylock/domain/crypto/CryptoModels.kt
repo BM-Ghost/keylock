@@ -15,6 +15,82 @@ enum class AESAlgorithm(
 }
 
 /**
+ * DES/TDES Padding methods
+ */
+enum class DesPadding(
+    val displayName: String,
+    val paddingName: String
+) {
+    PKCS5("PKCS#5", "PKCS5Padding"),
+    ISO9797_1_METHOD1("ISO 9797-1 Method 1", "ISO10126Padding"),
+    NO_PADDING("No Padding", "NoPadding");
+}
+
+/**
+ * RSA Key Lengths
+ */
+enum class RSAKeyLength(val bits: Int) {
+    RSA_512(512),
+    RSA_1024(1024),
+    RSA_2048(2048),
+    RSA_3072(3072),
+    RSA_4096(4096);
+    
+    val displayName: String get() = "$bits bits"
+}
+
+/**
+ * RSA Padding Methods
+ */
+enum class RSAPadding(
+    val displayName: String,
+    val paddingName: String
+) {
+    PKCS1("PKCS1", "PKCS1Padding"),
+    NO_PADDING("No Padding", "NoPadding");
+}
+
+/**
+ * RSA Encryption Method
+ */
+enum class RSAEncryptionMethod(
+    val displayName: String
+) {
+    PUBLIC("Public"),
+    PRIVATE("Private");
+}
+
+/**
+ * RSA Hash Algorithms
+ */
+enum class RSAHashAlgorithm(
+    val displayName: String,
+    val algorithm: String
+) {
+    SHA1("SHA-1", "SHA-1"),
+    SHA224("SHA-224", "SHA-224"),
+    SHA256("SHA-256", "SHA-256"),
+    SHA384("SHA-384", "SHA-384"),
+    SHA512("SHA-512", "SHA-512");
+}
+
+/**
+ * DES/TDES Cipher modes
+ */
+enum class DESMode(
+    val displayName: String,
+    val transformation: String,
+    val requiresIV: Boolean = false
+) {
+    ECB("ECB", "ECB", requiresIV = false),
+    CBC("CBC", "CBC", requiresIV = true),
+    CFB8("CFB-8", "CFB8", requiresIV = true),
+    CFB64("CFB-64", "CFB64", requiresIV = true),
+    OFB8("OFB-8", "OFB8", requiresIV = true),
+    OFB64("OFB-64", "OFB64", requiresIV = true);
+}
+
+/**
  * Cipher modes of operation
  */
 enum class CipherMode(

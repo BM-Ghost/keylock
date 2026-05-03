@@ -15,6 +15,7 @@ fun ByteArray.toHexString(): String {
 /**
  * Convert hexadecimal string to byte array
  */
+@OptIn(ExperimentalStdlibApi::class)
 fun String.hexToByteArray(): ByteArray {
     val cleanHex = this.replace("\\s+".toRegex(), "").uppercase()
     

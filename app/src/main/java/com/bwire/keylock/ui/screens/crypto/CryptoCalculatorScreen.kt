@@ -24,6 +24,9 @@ import com.bwire.keylock.ui.components.Base94Panel
 import com.bwire.keylock.ui.components.MessageParserPanel
 import com.bwire.keylock.ui.components.RSADERPublicKeyPanel
 import com.bwire.keylock.ui.components.UUIDPanel
+import com.bwire.keylock.ui.components.AESPanel
+import com.bwire.keylock.ui.components.DESPanel
+import com.bwire.keylock.ui.components.RSAPanel
 import kotlinx.coroutines.launch
 
 /**
@@ -415,6 +418,29 @@ private fun ToolConfigPanel(
                 }
                 GenericTool.UUID_GENERATOR.displayName -> {
                     UUIDPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                else -> PlaceholderPanel(tool, modifier)
+            }
+        }
+        CryptoMenu.CIPHER -> {
+            when (tool) {
+                CipherTool.AES.displayName -> {
+                    AESPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                CipherTool.DES.displayName -> {
+                    DESPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                CipherTool.RSA.displayName -> {
+                    RSAPanel(
                         onExecute = onExecute,
                         modifier = modifier
                     )
