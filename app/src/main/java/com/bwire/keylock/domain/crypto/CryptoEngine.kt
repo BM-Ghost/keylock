@@ -35,18 +35,28 @@ object AESCryptoEngine {
             validateKey(algorithm, key)
             
             val transformation = when (mode) {
-                CipherMode.ECB -> "AES/ECB/PKCS5Padding"
-                CipherMode.CBC -> "AES/CBC/PKCS5Padding"
+                CipherMode.ECB -> "AES/ECB/NoPadding"
+                CipherMode.CBC -> "AES/CBC/NoPadding"
                 CipherMode.CFB -> "AES/CFB/NoPadding"
                 CipherMode.OFB -> "AES/OFB/NoPadding"
                 CipherMode.KCV -> return generateKCV(key)
+            }
+
+            if (mode.requiresIV) {
+                if (iv == null || iv.size != 16) {
+                    return Result.failure(IllegalArgumentException("IV must be 16 bytes (32 hex chars) for ${mode.displayName}"))
+                }
+            }
+
+            if ((mode == CipherMode.ECB || mode == CipherMode.CBC) && data.size % 16 != 0) {
+                return Result.failure(IllegalArgumentException("Data length must be a multiple of 16 bytes for ${mode.displayName} without padding"))
             }
             
             val cipher = Cipher.getInstance(transformation)
             val secretKey = SecretKeySpec(key, "AES")
             
-            if (mode.requiresIV && iv != null) {
-                val ivSpec = IvParameterSpec(iv)
+            if (mode.requiresIV) {
+                val ivSpec = IvParameterSpec(iv!!)
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec)
             } else {
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey)
@@ -77,18 +87,28 @@ object AESCryptoEngine {
             }
             
             val transformation = when (mode) {
-                CipherMode.ECB -> "AES/ECB/PKCS5Padding"
-                CipherMode.CBC -> "AES/CBC/PKCS5Padding"
+                CipherMode.ECB -> "AES/ECB/NoPadding"
+                CipherMode.CBC -> "AES/CBC/NoPadding"
                 CipherMode.CFB -> "AES/CFB/NoPadding"
                 CipherMode.OFB -> "AES/OFB/NoPadding"
                 else -> return Result.failure(IllegalArgumentException("Invalid mode for decryption"))
+            }
+
+            if (mode.requiresIV) {
+                if (iv == null || iv.size != 16) {
+                    return Result.failure(IllegalArgumentException("IV must be 16 bytes (32 hex chars) for ${mode.displayName}"))
+                }
+            }
+
+            if ((mode == CipherMode.ECB || mode == CipherMode.CBC) && data.size % 16 != 0) {
+                return Result.failure(IllegalArgumentException("Data length must be a multiple of 16 bytes for ${mode.displayName} without padding"))
             }
             
             val cipher = Cipher.getInstance(transformation)
             val secretKey = SecretKeySpec(key, "AES")
             
-            if (mode.requiresIV && iv != null) {
-                val ivSpec = IvParameterSpec(iv)
+            if (mode.requiresIV) {
+                val ivSpec = IvParameterSpec(iv!!)
                 cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec)
             } else {
                 cipher.init(Cipher.DECRYPT_MODE, secretKey)
@@ -107,6 +127,14 @@ object AESCryptoEngine {
      */
     fun generateKCV(key: ByteArray): Result<ByteArray> {
         return try {
+            if (key.size != 16 && key.size != 24 && key.size != 32) {
+                return Result.failure(
+                    InvalidKeyException(
+                        "Invalid key length: expected 16, 24, or 32 bytes, got ${key.size} bytes"
+                    )
+                )
+            }
+
             val cipher = Cipher.getInstance("AES/ECB/NoPadding")
             val secretKey = SecretKeySpec(key, "AES")
             cipher.init(Cipher.ENCRYPT_MODE, secretKey)
@@ -154,7 +182,77 @@ object AESCryptoEngine {
 object DESCryptoEngine {
     
     /**
-     * Encrypt data using DES/TDES
+     * Encrypt data using DES/TDES (new API with DESMode and DesPadding)
+     */
+    fun encrypt(
+        algorithm: DESAlgorithm,
+        mode: DESMode,
+        padding: DesPadding,
+        key: ByteArray,
+        data: ByteArray,
+        iv: ByteArray? = null
+    ): Result<ByteArray> {
+        return try {
+            val keyAlgo = if (algorithm == DESAlgorithm.DES) "DES" else "DESede"
+            val transformation = "$keyAlgo/${mode.transformation}/${padding.paddingName}"
+            
+            val cipher = Cipher.getInstance(transformation)
+            val secretKey = SecretKeySpec(key, keyAlgo)
+            
+            if (mode.requiresIV) {
+                if (iv == null || iv.size != 8) {
+                    return Result.failure(IllegalArgumentException("IV must be 8 bytes (16 hex chars) for ${mode.displayName}"))
+                }
+                val ivSpec = IvParameterSpec(iv)
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec)
+            } else {
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+            }
+            
+            val encrypted = cipher.doFinal(data)
+            Result.success(encrypted)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    /**
+     * Decrypt data using DES/TDES (new API with DESMode and DesPadding)
+     */
+    fun decrypt(
+        algorithm: DESAlgorithm,
+        mode: DESMode,
+        padding: DesPadding,
+        key: ByteArray,
+        data: ByteArray,
+        iv: ByteArray? = null
+    ): Result<ByteArray> {
+        return try {
+            val keyAlgo = if (algorithm == DESAlgorithm.DES) "DES" else "DESede"
+            val transformation = "$keyAlgo/${mode.transformation}/${padding.paddingName}"
+            
+            val cipher = Cipher.getInstance(transformation)
+            val secretKey = SecretKeySpec(key, keyAlgo)
+            
+            if (mode.requiresIV) {
+                if (iv == null || iv.size != 8) {
+                    return Result.failure(IllegalArgumentException("IV must be 8 bytes (16 hex chars) for ${mode.displayName}"))
+                }
+                val ivSpec = IvParameterSpec(iv)
+                cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec)
+            } else {
+                cipher.init(Cipher.DECRYPT_MODE, secretKey)
+            }
+            
+            val decrypted = cipher.doFinal(data)
+            Result.success(decrypted)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    /**
+     * Encrypt data using DES/TDES (legacy API with CipherMode)
      */
     fun encrypt(
         algorithm: DESAlgorithm,
