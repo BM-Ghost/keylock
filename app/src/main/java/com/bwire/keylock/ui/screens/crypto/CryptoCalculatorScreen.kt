@@ -16,6 +16,17 @@ import com.bwire.keylock.ui.theme.*
 import com.bwire.keylock.ui.components.CryptoConsole
 import com.bwire.keylock.ui.components.CryptoConsoleCollapsible
 import com.bwire.keylock.ui.components.HashCalculatorPanel
+import com.bwire.keylock.ui.components.CharacterEncodingPanel
+import com.bwire.keylock.ui.components.BCDPanel
+import com.bwire.keylock.ui.components.CheckDigitPanel
+import com.bwire.keylock.ui.components.Base64Panel
+import com.bwire.keylock.ui.components.Base94Panel
+import com.bwire.keylock.ui.components.MessageParserPanel
+import com.bwire.keylock.ui.components.RSADERPublicKeyPanel
+import com.bwire.keylock.ui.components.UUIDPanel
+import com.bwire.keylock.ui.components.AESPanel
+import com.bwire.keylock.ui.components.DESPanel
+import com.bwire.keylock.ui.components.RSAPanel
 import kotlinx.coroutines.launch
 
 /**
@@ -359,6 +370,77 @@ private fun ToolConfigPanel(
             when (tool) {
                 GenericTool.HASHES.displayName -> {
                     HashCalculatorPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.CHARACTER_ENCODING.displayName -> {
+                    CharacterEncodingPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BCD.displayName -> {
+                    BCDPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.CHECK_DIGITS.displayName -> {
+                    CheckDigitPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BASE64.displayName -> {
+                    Base64Panel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.BASE94.displayName -> {
+                    Base94Panel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.MESSAGE_PARSER.displayName -> {
+                    MessageParserPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.RSA_DER_PUBLIC_KEY.displayName -> {
+                    RSADERPublicKeyPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                GenericTool.UUID_GENERATOR.displayName -> {
+                    UUIDPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                else -> PlaceholderPanel(tool, modifier)
+            }
+        }
+        CryptoMenu.CIPHER -> {
+            when (tool) {
+                CipherTool.AES.displayName -> {
+                    AESPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                CipherTool.DES.displayName -> {
+                    DESPanel(
+                        onExecute = onExecute,
+                        modifier = modifier
+                    )
+                }
+                CipherTool.RSA.displayName -> {
+                    RSAPanel(
                         onExecute = onExecute,
                         modifier = modifier
                     )

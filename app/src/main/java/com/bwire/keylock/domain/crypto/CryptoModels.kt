@@ -15,6 +15,82 @@ enum class AESAlgorithm(
 }
 
 /**
+ * DES/TDES Padding methods
+ */
+enum class DesPadding(
+    val displayName: String,
+    val paddingName: String
+) {
+    PKCS5("PKCS#5", "PKCS5Padding"),
+    ISO9797_1_METHOD1("ISO 9797-1 Method 1", "ISO10126Padding"),
+    NO_PADDING("No Padding", "NoPadding");
+}
+
+/**
+ * RSA Key Lengths
+ */
+enum class RSAKeyLength(val bits: Int) {
+    RSA_512(512),
+    RSA_1024(1024),
+    RSA_2048(2048),
+    RSA_3072(3072),
+    RSA_4096(4096);
+    
+    val displayName: String get() = "$bits bits"
+}
+
+/**
+ * RSA Padding Methods
+ */
+enum class RSAPadding(
+    val displayName: String,
+    val paddingName: String
+) {
+    PKCS1("PKCS1", "PKCS1Padding"),
+    NO_PADDING("No Padding", "NoPadding");
+}
+
+/**
+ * RSA Encryption Method
+ */
+enum class RSAEncryptionMethod(
+    val displayName: String
+) {
+    PUBLIC("Public"),
+    PRIVATE("Private");
+}
+
+/**
+ * RSA Hash Algorithms
+ */
+enum class RSAHashAlgorithm(
+    val displayName: String,
+    val algorithm: String
+) {
+    SHA1("SHA-1", "SHA-1"),
+    SHA224("SHA-224", "SHA-224"),
+    SHA256("SHA-256", "SHA-256"),
+    SHA384("SHA-384", "SHA-384"),
+    SHA512("SHA-512", "SHA-512");
+}
+
+/**
+ * DES/TDES Cipher modes
+ */
+enum class DESMode(
+    val displayName: String,
+    val transformation: String,
+    val requiresIV: Boolean = false
+) {
+    ECB("ECB", "ECB", requiresIV = false),
+    CBC("CBC", "CBC", requiresIV = true),
+    CFB8("CFB-8", "CFB8", requiresIV = true),
+    CFB64("CFB-64", "CFB64", requiresIV = true),
+    OFB8("OFB-8", "OFB8", requiresIV = true),
+    OFB64("OFB-64", "OFB64", requiresIV = true);
+}
+
+/**
  * Cipher modes of operation
  */
 enum class CipherMode(
@@ -155,4 +231,90 @@ enum class PaddingScheme(
     ISO_IEC_7816_4("ISO/IEC 7816-4"),
     ANSI_X9_23("ANSI X9.23"),
     ZERO_PADDING("Zero Padding")
+}
+
+/**
+ * Character encoding conversion types
+ */
+enum class CharacterEncodingType(
+    val displayName: String
+) {
+    BINARY_TO_HEX("Binary -> Hexadecimal"),
+    HEX_TO_BINARY("Hexadecimal -> Binary"),
+    ASCII_TO_EBCDIC("ASCII -> EBCDIC"),
+    EBCDIC_TO_ASCII("EBCDIC -> ASCII"),
+    ASCII_TO_HEX("ASCII Text -> Hexadecimal"),
+    ATM_ASCII_DEC_TO_HEX("ATM ASCII Decimal -> Hexadecimal"),
+    HEX_TO_ATM_ASCII_DEC("Hexadecimal -> ATM ASCII Decimal")
+}
+
+/**
+ * BCD (Binary Coded Decimal) data format
+ */
+enum class BCDFormat(
+    val displayName: String
+) {
+    BINARY("Binary"),
+    HEXADECIMAL("Hexadecimal")
+}
+
+/**
+ * Check digit calculation methods
+ */
+enum class CheckDigitMethod(
+    val displayName: String
+) {
+    LUHN("Luhn's number (MOD 10)"),
+    AMEX_SE("Amex SE Number (MOD 9)")
+}
+
+/**
+ * Message parsing modes
+ */
+enum class ParseMode(
+    val displayName: String
+) {
+    ATM_NDC("ATM NDC"),
+    ATM_WINCOR("ATM Wincor"),
+    ISO_8583_1987("ISO 8583 1987")
+}
+
+/**
+ * RSA data encoding formats
+ */
+enum class RSADataEncoding(
+    val displayName: String
+) {
+    NONE("None"),
+    ASCII("ASCII"),
+    EBCDIC("EBCDIC"),
+    BCD("BCD"),
+    BCD_LEFT_F("BCD_left_F"),
+    UTF_8("UTF_8"),
+    ASCII_HEX("ASCII_HEX"),
+    ASCII_BASE64("ASCII_BASE64"),
+    EBCDIC_HEX("EBCDIC_HEX"),
+    ASCII_ZERO_PADDED("ASCII_zero_padded"),
+    BCD_SIGNED("BCD_Signed")
+}
+
+/**
+ * RSA DER encoding types
+ */
+enum class RSADEREncoding(
+    val displayName: String
+) {
+    UNKNOWN("UNKNOWN"),
+    ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED("ENCODING_01_DER_ASN1_PUBLIC_KEY_UNSIGNED"),
+    ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT("ENCODING_02_DER_ASN1_PUBLIC_KEY_2S_COMPLIMENT")
+}
+
+/**
+ * UUID variants
+ */
+enum class UUIDVariant(
+    val displayName: String,
+    val logLabel: String
+) {
+    VERSION_4_RANDOM("VERSION_4_RANDOM", "Variant 4 (random)")
 }
