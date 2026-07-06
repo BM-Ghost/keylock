@@ -1,19 +1,19 @@
 package com.bwire.keylock.ui.screens.crypto
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.bwire.keylock.data.ConsoleLogRepository
 import com.bwire.keylock.ui.navigation.*
 import com.bwire.keylock.ui.theme.*
-import com.bwire.keylock.ui.components.CryptoConsole
 import com.bwire.keylock.ui.components.CryptoConsoleCollapsible
 import com.bwire.keylock.ui.components.HashCalculatorPanel
 import com.bwire.keylock.ui.components.CharacterEncodingPanel
@@ -165,6 +165,8 @@ private fun CryptoCalculatorTopBar(
     onMenuSelected: (CryptoMenu) -> Unit,
     onNavigateBack: () -> Unit
 ) {
+    val menuScrollState = rememberScrollState()
+
     TopAppBar(
         title = { 
             Row(
@@ -198,32 +200,38 @@ private fun CryptoCalculatorTopBar(
             }
         },
         actions = {
-            // Menu navigation
-            CryptoMenu.entries.forEach { menu ->
-                FilterChip(
-                    selected = selectedMenu == menu,
-                    onClick = { onMenuSelected(menu) },
-                    label = { 
-                        Text(
-                            menu.displayName,
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    },
-                    modifier = Modifier.padding(end = 4.dp),
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = NeonGreen,
-                        selectedLabelColor = DarkestGreen,
-                        containerColor = SurfaceMedium,
-                        labelColor = TextSecondary
-                    ),
-                    border = FilterChipDefaults.filterChipBorder(
-                        enabled = true,
+            Row(
+                modifier = Modifier
+                    .horizontalScroll(menuScrollState)
+                    .padding(start = 4.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CryptoMenu.entries.forEach { menu ->
+                    FilterChip(
                         selected = selectedMenu == menu,
-                        borderColor = if (selectedMenu == menu) NeonGreen else MediumGreen,
-                        selectedBorderColor = NeonGreen,
-                        borderWidth = 1.dp
+                        onClick = { onMenuSelected(menu) },
+                        label = {
+                            Text(
+                                menu.displayName,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = NeonGreen,
+                            selectedLabelColor = DarkestGreen,
+                            containerColor = SurfaceMedium,
+                            labelColor = TextSecondary
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = selectedMenu == menu,
+                            borderColor = if (selectedMenu == menu) NeonGreen else MediumGreen,
+                            selectedBorderColor = NeonGreen,
+                            borderWidth = 1.dp
+                        )
                     )
-                )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
